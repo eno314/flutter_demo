@@ -27,7 +27,8 @@ void main() {
   });
 
   testWidgets('''
-    If the increment button is pressed, the counter value is incremented
+    When the increment button is pressed,
+    Then the counter value is incremented
   ''', (tester) async {
     await tester.pumpWidget(_buildTestWidget());
 
