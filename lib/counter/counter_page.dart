@@ -9,16 +9,17 @@ class CounterPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final counter = ref.watch(counterNotifierProvider);
     return CounterTemplate(
       title: 'Counter with Riverpod',
       message: 'You have pushed the button this many times:',
-      counter: ref.watch(counterProvider),
+      counter: counter,
       onPressedIncrementButton: (() => _incrementCounter(ref)),
     );
   }
 
   void _incrementCounter(WidgetRef ref) {
-    final notifier = ref.read(counterProvider.notifier);
-    notifier.increment();
+    final counterNotifier = ref.read(counterNotifierProvider.notifier);
+    counterNotifier.increment();
   }
 }

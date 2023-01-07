@@ -6,5 +6,5 @@ class CounterNotifier extends StateNotifier<int> {
   void increment() => state++;
 }
 
-final counterProvider =
+final counterNotifierProvider =
     StateNotifierProvider<CounterNotifier, int>((ref) => CounterNotifier());
