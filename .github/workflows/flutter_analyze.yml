@@ -1,4 +1,4 @@
-name: Flutter_Test
+name: Flutter_Analyze
 
 on:
   push:
