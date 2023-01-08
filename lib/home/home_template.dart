@@ -29,6 +29,7 @@ class HomeTemplate extends StatelessWidget {
 
   Widget _buildListItem(BuildContext context, HomeListItemProps item) {
     return Card(
+      key: Key('homeListItem${item.title}'),
       child: ListTile(
         title: Text(item.title),
         onTap: () => item.onTapListItem(context),

@@ -22,7 +22,9 @@ class HomePage extends StatelessWidget {
       title: 'Counter',
       onTapListItem: (context) => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const CounterPage()),
+        MaterialPageRoute(
+          builder: (context) => const CounterPage(),
+        ),
       ),
     );
   }
