@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/counter/counter_page.dart';
+import 'package:flutter_demo/form/form_page.dart';
 import 'package:flutter_demo/home/home_props.dart';
 import 'package:flutter_demo/home/home_template.dart';
 
@@ -16,6 +17,7 @@ class HomePage extends StatelessWidget {
       routes: {
         '/': (context) => const _HomePage(),
         CounterPage.route: (context) => const CounterPage(),
+        FormPage.route: (context) => const FormPage(),
       },
     );
   }
@@ -30,17 +32,25 @@ class _HomePage extends StatelessWidget {
       props: HomeProps(
         title: 'Home',
         items: [
-          _counterListItemProps(context),
+          _counterPageListItemProps(),
+          _formPageListItemProps(),
         ],
       ),
       onTapListItem: (context, route) => Navigator.pushNamed(context, route),
     );
   }
 
-  HomeListItemProps _counterListItemProps(BuildContext context) {
+  HomeListItemProps _counterPageListItemProps() {
     return HomeListItemProps(
       title: CounterPage.title,
       route: CounterPage.route,
+    );
+  }
+
+  HomeListItemProps _formPageListItemProps() {
+    return HomeListItemProps(
+      title: FormPage.title,
+      route: FormPage.route,
     );
   }
 }
