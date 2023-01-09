@@ -8,6 +8,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      routes: {
+        '/': (context) => const _HomePage(),
+        CounterPage.route: (context) => const CounterPage(),
+      },
+    );
+  }
+}
+
+class _HomePage extends StatelessWidget {
+  const _HomePage();
+
+  @override
+  Widget build(BuildContext context) {
     return HomeTemplate(
       props: HomeProps(
         title: 'Home',

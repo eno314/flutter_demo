@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/counter/counter_page.dart';
-import 'package:flutter_demo/main.dart';
+import 'package:flutter_demo/home/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -31,5 +31,5 @@ void main() {
 }
 
 Widget _buildTestWidget() {
-  return const ProviderScope(child: MyApp());
+  return const ProviderScope(child: HomePage());
 }
