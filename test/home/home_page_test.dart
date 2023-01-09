@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/counter/counter_page.dart';
-import 'package:flutter_demo/home/home_page.dart';
+import 'package:flutter_demo/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Counter page', (() {
-    const counterPageLinkItemKey = Key('homeListItemCounter');
+    const counterPageLinkItemKey = Key('home_list_item_0');
 
     testWidgets('''
       Home page has counter page link item.
@@ -31,5 +31,5 @@ void main() {
 }
 
 Widget _buildTestWidget() {
-  return const ProviderScope(child: MaterialApp(home: HomePage()));
+  return const ProviderScope(child: MyApp());
 }

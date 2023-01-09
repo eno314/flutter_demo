@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class HomeProps {
   final String title;
   final List<HomeListItemProps> items;
@@ -12,10 +10,10 @@ class HomeProps {
 
 class HomeListItemProps {
   final String title;
-  final void Function(BuildContext context) onTapListItem;
+  final String route;
 
   HomeListItemProps({
     required this.title,
-    required this.onTapListItem,
+    required this.route,
   });
 }

@@ -9,23 +9,20 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HomeTemplate(
-        props: HomeProps(
-      title: 'Home',
-      items: [
-        _counterListItemProps(context),
-      ],
-    ));
+      props: HomeProps(
+        title: 'Home',
+        items: [
+          _counterListItemProps(context),
+        ],
+      ),
+      onTapListItem: (context, route) => Navigator.pushNamed(context, route),
+    );
   }
 
   HomeListItemProps _counterListItemProps(BuildContext context) {
     return HomeListItemProps(
-      title: 'Counter',
-      onTapListItem: (context) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const CounterPage(),
-        ),
-      ),
+      title: CounterPage.title,
+      route: CounterPage.route,
     );
   }
 }

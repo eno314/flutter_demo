@@ -5,13 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'counter_notifier.dart';
 
 class CounterPage extends ConsumerWidget {
+  static const title = 'Counter with Riverpod';
+  static const route = '/counter';
+
   const CounterPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final counter = ref.watch(counterNotifierProvider);
     return CounterTemplate(
-      title: 'Counter with Riverpod',
+      title: title,
       message: 'You have pushed the button this many times:',
       counter: counter,
       onPressedIncrementButton: (() => _incrementCounter(ref)),
