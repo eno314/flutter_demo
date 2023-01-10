@@ -10,6 +10,17 @@ class FormProps with _$FormProps {
     required final FormTextFieldProps textField,
     required final FormDropdownButtonProps dropdownButton,
   }) = _FormProps;
+
+  factory FormProps.init() => FormProps(
+        title: 'Form',
+        postButtonText: 'Post',
+        textField: FormTextFieldProps(
+          label: 'Text Field',
+        ),
+        dropdownButton: FormDropdownButtonProps(
+          hint: 'Dropdown Button',
+        ),
+      );
 }
 
 @freezed
