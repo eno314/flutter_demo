@@ -4,11 +4,15 @@ import 'package:flutter_demo/form/form_props.dart';
 class FormTemplate extends StatelessWidget {
   final FormProps props;
   final ValueChanged<String> onChangedTextField;
+  final ValueChanged<FormDropdownValue?> onChangedDropdownValue;
+  final VoidCallback onPressedPostButton;
 
   const FormTemplate({
     super.key,
     required this.props,
     required this.onChangedTextField,
+    required this.onChangedDropdownValue,
+    required this.onPressedPostButton,
   });
 
   @override
@@ -25,6 +29,8 @@ class FormTemplate extends StatelessWidget {
     return ListView(
       children: [
         _buildTextField(props.textField),
+        _buildDropdownButton(props.dropdownButton),
+        _buildPostButton(props.postButtonText),
       ],
     );
   }
@@ -38,6 +44,40 @@ class FormTemplate extends StatelessWidget {
           labelText: textFieldProps.label,
         ),
         onChanged: onChangedTextField,
+      ),
+    );
+  }
+
+  Widget _buildDropdownButton(FormDropdownButtonProps dropdownButtonProps) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: DropdownButton<FormDropdownValue>(
+        hint: Text(dropdownButtonProps.hint),
+        icon: const Icon(Icons.arrow_downward),
+        items: FormDropdownValue.values.map(_buildDropdownMenuItem).toList(),
+        onChanged: onChangedDropdownValue,
+        value: dropdownButtonProps.value,
+      ),
+    );
+  }
+
+  DropdownMenuItem<FormDropdownValue> _buildDropdownMenuItem(
+      FormDropdownValue value) {
+    return DropdownMenuItem(
+      value: value,
+      child: Text(value.name),
+    );
+  }
+
+  Widget _buildPostButton(String buttonText) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+        child: ElevatedButton(
+          onPressed: onPressedPostButton,
+          child: Text(buttonText),
+        ),
       ),
     );
   }

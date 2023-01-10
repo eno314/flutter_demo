@@ -13,17 +13,31 @@ class FormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormTemplate(
-      onChangedTextField: _onChangedTextField,
       props: FormProps(
         title: title,
+        postButtonText: 'post',
         textField: FormTextFieldProps(
           label: 'please input any text.',
         ),
+        dropdownButton: FormDropdownButtonProps(
+          hint: 'please select any color.',
+        ),
       ),
+      onChangedTextField: _onChangedTextField,
+      onChangedDropdownValue: _onChangedDropdownValue,
+      onPressedPostButton: _onPressedPostButton,
     );
   }
 
   void _onChangedTextField(String value) {
     log(value);
+  }
+
+  void _onChangedDropdownValue(FormDropdownValue? value) {
+    log(value.toString());
+  }
+
+  void _onPressedPostButton() {
+    log('post');
   }
 }

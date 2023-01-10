@@ -1,10 +1,14 @@
 class FormProps {
   final String title;
+  final String postButtonText;
   final FormTextFieldProps textField;
+  final FormDropdownButtonProps dropdownButton;
 
   FormProps({
     required this.title,
+    required this.postButtonText,
     required this.textField,
+    required this.dropdownButton,
   });
 }
 
@@ -14,6 +18,22 @@ class FormTextFieldProps {
 
   FormTextFieldProps({
     required this.label,
-    required this.value,
+    this.value,
   });
+}
+
+class FormDropdownButtonProps {
+  final String hint;
+  final FormDropdownValue? value;
+
+  FormDropdownButtonProps({
+    required this.hint,
+    this.value,
+  });
+}
+
+enum FormDropdownValue {
+  red,
+  green,
+  blue,
 }
