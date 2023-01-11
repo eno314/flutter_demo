@@ -1,8 +1,8 @@
 import 'package:flutter_demo/form/form_props.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FormValuesNotifier extends StateNotifier<FormValuesProps> {
-  FormValuesNotifier() : super(FormValuesProps());
+class FormNotifier extends StateNotifier<FormValuesProps> {
+  FormNotifier() : super(FormValuesProps());
 
   void onChangedTextField(String value) {
     state = state.copyWith(textField: value);
@@ -13,7 +13,7 @@ class FormValuesNotifier extends StateNotifier<FormValuesProps> {
   }
 }
 
-final formValuesNotifierProvider =
-    StateNotifierProvider<FormValuesNotifier, FormValuesProps>(
-  (ref) => FormValuesNotifier(),
+final formNotifierProvider =
+    StateNotifierProvider<FormNotifier, FormValuesProps>(
+  (ref) => FormNotifier(),
 );

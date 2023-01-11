@@ -17,7 +17,7 @@ class FormPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formValues = ref.watch(formValuesNotifierProvider);
+    final formValues = ref.watch(formNotifierProvider);
     return FormTemplate(
       props: FormProps(
         title: title,
@@ -33,16 +33,16 @@ class FormPage extends ConsumerWidget {
   }
 
   void _onChangedTextField(String value, WidgetRef ref) {
-    final notifier = ref.watch(formValuesNotifierProvider.notifier);
+    final notifier = ref.watch(formNotifierProvider.notifier);
     notifier.onChangedTextField(value);
   }
 
   void _onChangedDropdownValue(FormDropdownValue? value, WidgetRef ref) {
-    final notifier = ref.watch(formValuesNotifierProvider.notifier);
+    final notifier = ref.watch(formNotifierProvider.notifier);
     notifier.onChangedDropdownValue(value);
   }
 
   void _onPressedPostButton(WidgetRef ref) {
-    log('state : ${ref.read(formValuesNotifierProvider)}');
+    log('state : ${ref.read(formNotifierProvider)}');
   }
 }
