@@ -16,6 +16,12 @@ class FormProps {
     required this.postButtonText,
     required this.formValues,
   });
+
+  isEnabledPostButton() {
+    return formValues.textField != null &&
+        formValues.textField!.isNotEmpty &&
+        formValues.dropdown != null;
+  }
 }
 
 @freezed

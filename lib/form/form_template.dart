@@ -39,6 +39,7 @@ class FormTemplate extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: TextField(
+        controller: TextEditingController(text: props.formValues.textField),
         decoration: InputDecoration(
           border: const UnderlineInputBorder(),
           labelText: props.textFieldLabel,
@@ -76,7 +77,7 @@ class FormTemplate extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: ElevatedButton(
-          onPressed: onPressedPostButton,
+          onPressed: props.isEnabledPostButton() ? onPressedPostButton : null,
           child: Text(props.postButtonText),
         ),
       ),
