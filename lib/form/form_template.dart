@@ -28,55 +28,56 @@ class FormTemplate extends StatelessWidget {
   Widget _buildFormList(BuildContext context) {
     return ListView(
       children: [
-        _buildTextField(props.textField),
-        _buildDropdownButton(props.dropdownButton),
-        _buildPostButton(props.postButtonText),
+        _buildTextField(),
+        _buildDropdownButton(),
+        _buildPostButton(),
       ],
     );
   }
 
-  Widget _buildTextField(FormTextFieldProps textFieldProps) {
+  Widget _buildTextField() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: TextField(
         decoration: InputDecoration(
           border: const UnderlineInputBorder(),
-          labelText: textFieldProps.label,
+          labelText: props.textFieldLabel,
         ),
         onChanged: onChangedTextField,
       ),
     );
   }
 
-  Widget _buildDropdownButton(FormDropdownButtonProps dropdownButtonProps) {
+  Widget _buildDropdownButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: DropdownButton<FormDropdownValue>(
-        hint: Text(dropdownButtonProps.hint),
+        hint: Text(props.dropdownButtonHint),
         icon: const Icon(Icons.arrow_downward),
         items: FormDropdownValue.values.map(_buildDropdownMenuItem).toList(),
         onChanged: onChangedDropdownValue,
-        value: dropdownButtonProps.value,
+        value: props.formValues.dropdown,
       ),
     );
   }
 
   DropdownMenuItem<FormDropdownValue> _buildDropdownMenuItem(
-      FormDropdownValue value) {
+    FormDropdownValue value,
+  ) {
     return DropdownMenuItem(
       value: value,
       child: Text(value.name),
     );
   }
 
-  Widget _buildPostButton(String buttonText) {
+  Widget _buildPostButton() {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: ElevatedButton(
           onPressed: onPressedPostButton,
-          child: Text(buttonText),
+          child: Text(props.postButtonText),
         ),
       ),
     );

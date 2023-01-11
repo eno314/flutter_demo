@@ -1,21 +1,19 @@
 import 'package:flutter_demo/form/form_props.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FormNotifier extends StateNotifier<FormProps> {
-  FormNotifier() : super(FormProps.init());
+class FormValuesNotifier extends StateNotifier<FormValuesProps> {
+  FormValuesNotifier() : super(FormValuesProps());
 
   void onChangedTextField(String value) {
-    state = state.copyWith(
-      textField: state.textField.copyWith(value: value),
-    );
+    state = state.copyWith(textField: value);
   }
 
   void onChangedDropdownValue(FormDropdownValue? value) {
-    state = state.copyWith(
-      dropdownButton: state.dropdownButton.copyWith(value: value),
-    );
+    state = state.copyWith(dropdown: value);
   }
 }
 
-final formNotifierProvider =
-    StateNotifierProvider<FormNotifier, FormProps>((ref) => FormNotifier());
+final formValuesNotifierProvider =
+    StateNotifierProvider<FormValuesNotifier, FormValuesProps>(
+  (ref) => FormValuesNotifier(),
+);

@@ -2,45 +2,32 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'form_props.freezed.dart';
 
-@freezed
-class FormProps with _$FormProps {
-  const factory FormProps({
-    required final String title,
-    required final String postButtonText,
-    required final FormTextFieldProps textField,
-    required final FormDropdownButtonProps dropdownButton,
-  }) = _FormProps;
+class FormProps {
+  final String title;
+  final String textFieldLabel;
+  final String dropdownButtonHint;
+  final String postButtonText;
+  final FormValuesProps formValues;
 
-  factory FormProps.init() => FormProps(
-        title: 'Form',
-        postButtonText: 'Post',
-        textField: FormTextFieldProps(
-          label: 'Text Field',
-        ),
-        dropdownButton: FormDropdownButtonProps(
-          hint: 'Dropdown Button',
-        ),
-      );
+  const FormProps({
+    required this.title,
+    required this.textFieldLabel,
+    required this.dropdownButtonHint,
+    required this.postButtonText,
+    required this.formValues,
+  });
 }
 
 @freezed
-class FormTextFieldProps with _$FormTextFieldProps {
-  factory FormTextFieldProps({
-    required final String label,
-    final String? value,
-  }) = _FormTextFieldProps;
-}
-
-@freezed
-class FormDropdownButtonProps with _$FormDropdownButtonProps {
-  factory FormDropdownButtonProps({
-    required final String hint,
-    final FormDropdownValue? value,
-  }) = _FormDropdownButtonProps;
+class FormValuesProps with _$FormValuesProps {
+  factory FormValuesProps({
+    final String? textField,
+    final FormDropdownValue? dropdown,
+  }) = _FormValuesProps;
 }
 
 enum FormDropdownValue {
-  red,
-  green,
-  blue,
+  work,
+  hobby,
+  housework,
 }
