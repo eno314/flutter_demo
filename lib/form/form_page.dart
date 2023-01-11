@@ -44,5 +44,7 @@ class FormPage extends ConsumerWidget {
 
   void _onPressedPostButton(WidgetRef ref) {
     log('state : ${ref.read(formNotifierProvider)}');
+    final notifier = ref.watch(formNotifierProvider.notifier);
+    notifier.reset();
   }
 }

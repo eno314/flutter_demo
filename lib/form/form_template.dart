@@ -39,6 +39,7 @@ class FormTemplate extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: TextField(
+        key: const Key('textFieldDemo'),
         controller: TextEditingController(text: props.formValues.textField),
         decoration: InputDecoration(
           border: const UnderlineInputBorder(),
@@ -53,6 +54,7 @@ class FormTemplate extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: DropdownButton<FormDropdownValue>(
+        key: const Key('dropdownButtonDemo'),
         hint: Text(props.dropdownButtonHint),
         icon: const Icon(Icons.arrow_downward),
         items: FormDropdownValue.values.map(_buildDropdownMenuItem).toList(),
@@ -77,6 +79,7 @@ class FormTemplate extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: ElevatedButton(
+          key: const Key('postButtonDemo'),
           onPressed: props.isEnabledPostButton() ? onPressedPostButton : null,
           child: Text(props.postButtonText),
         ),

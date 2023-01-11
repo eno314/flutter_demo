@@ -11,6 +11,10 @@ class FormNotifier extends StateNotifier<FormValuesProps> {
   void onChangedDropdownValue(FormDropdownValue? value) {
     state = state.copyWith(dropdown: value);
   }
+
+  void reset() {
+    state = FormValuesProps();
+  }
 }
 
 final formNotifierProvider =
