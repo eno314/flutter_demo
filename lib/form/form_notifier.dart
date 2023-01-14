@@ -15,23 +15,29 @@ class FormNotifier extends StateNotifier<FormValuesProps> {
     state = state.copyWith(dropdown: value);
   }
 
-  void post() async {
+  Future<void> post() async {
     state = state.copyWith(isPosting: true);
-    try {
-      final request = state.toAddRequest();
-      if (request == null) {
-        return;
-      }
 
-      final response = await _formUsecase.add(request);
-      final addedFormData = response.addedFormData;
-      if (addedFormData == null) {
-        return;
-      }
+    final formData = (await _post(state)).data;
 
-      state = state.copyWith(id: addedFormData.id);
-    } finally {
-      state = state.copyWith(isPosting: false);
+    state = state.copyWith(
+      id: formData.id,
+      textField: formData.text,
+      isPosting: false,
+    );
+  }
+
+  Future<FormResponse> _post(FormValuesProps props) async {
+    final request = FormRequest(
+      id: props.id,
+      text: props.textField,
+      dropdownItem: props.dropdown?.name,
+    );
+
+    if (request.id == null) {
+      return await _formUsecase.add(request);
+    } else {
+      return await _formUsecase.update(request);
     }
   }
 

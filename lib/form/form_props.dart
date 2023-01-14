@@ -1,4 +1,3 @@
-import 'package:flutter_demo/form/form_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'form_props.freezed.dart';
@@ -40,19 +39,6 @@ class FormValuesProps with _$FormValuesProps {
     final FormDropdownValue? dropdown,
     @Default(false) final bool isPosting,
   }) = _FormValuesProps;
-
-  FormAddRequest? toAddRequest() {
-    final textFieldValue = textField;
-    final dropdownValue = dropdown;
-    if (textFieldValue == null || dropdownValue == null) {
-      return null;
-    }
-
-    return FormAddRequest(
-      text: textFieldValue,
-      dropdownItem: dropdownValue.name,
-    );
-  }
 }
 
 enum FormDropdownValue {

@@ -5,33 +5,69 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final formUsecaseProvider = Provider((ref) => FormUsecase());
 
 class FormUsecase {
-  final List<FormData> _formDataRepository = [];
+  final Map<int, FormData> _formDataRepository = {};
 
-  Future<FormAddResponse> add(FormAddRequest request) async {
-    final formData = FormData(
-      id: _formDataRepository.length,
+  Future<FormResponse> add(FormRequest request) async {
+    final formData = _create(
+      id: _nextId(),
       text: request.text,
       dropdownItem: request.dropdownItem,
     );
 
-    _formDataRepository.add(formData);
+    await _post(formData);
+
+    return FormResponse(data: formData);
+  }
+
+  Future<FormResponse> update(FormRequest request) async {
+    final formData = _create(
+      id: request.id,
+      text: request.text,
+      dropdownItem: request.dropdownItem,
+    );
+
+    await _post(formData);
+
+    return FormResponse(data: formData);
+  }
+
+  int _nextId() => _formDataRepository.length;
+
+  FormData _create({
+    required int? id,
+    required String? text,
+    required String? dropdownItem,
+  }) {
+    if (id == null || text == null || dropdownItem == null) {
+      throw ArgumentError('id, text, dropdownItem must not be null');
+    }
+
+    return FormData(
+      id: id,
+      text: text,
+      dropdownItem: dropdownItem,
+    );
+  }
+
+  Future<void> _post(FormData formData) async {
+    _formDataRepository[formData.id] = formData;
 
     // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 1000));
 
-    log('current form data list : $_formDataRepository');
-
-    return FormAddResponse(addedFormData: formData);
+    log('current repository : $_formDataRepository');
   }
 }
 
-class FormAddRequest {
-  final String text;
-  final String dropdownItem;
+class FormRequest {
+  final int? id;
+  final String? text;
+  final String? dropdownItem;
 
-  FormAddRequest({
-    required this.text,
-    required this.dropdownItem,
+  FormRequest({
+    this.id,
+    this.text,
+    this.dropdownItem,
   });
 }
 
@@ -45,12 +81,17 @@ class FormData {
     required this.text,
     required this.dropdownItem,
   });
+
+  @override
+  String toString() {
+    return 'FormData{id: $id, text: $text, dropdownItem: $dropdownItem}';
+  }
 }
 
-class FormAddResponse {
-  final FormData? addedFormData;
+class FormResponse {
+  final FormData data;
 
-  FormAddResponse({
-    required this.addedFormData,
+  FormResponse({
+    required this.data,
   });
 }
