@@ -9,91 +9,101 @@ void main() {
   final dropdownFinder = find.byKey(const Key('dropdownButtonDemo'));
   final postButtonFinder = find.byKey(const Key('postButtonDemo'));
 
-  testWidgets('''
-    When Page is initialized,
-    Then there are 4 widgets:
-      - Text (having title)
-      - TextField (empty)
-      - DropdownButton (no selection)
-      - PostButton (disabled)
-  ''', (tester) async {
-    await tester.pumpWidget(_buildTestWidget());
+  group('Happy path', (() {
+    testWidgets('''
+      Given initial page,
+      Then there are 4 widgets:
+        - Text (having title)
+        - TextField (empty)
+        - DropdownButton (no selection)
+        - PostButton (disabled, text is Add)
+    ''', (tester) async {
+      await tester.pumpWidget(_buildTestWidget());
 
-    expect(find.text(FormPage.title), findsOneWidget);
+      expect(find.text(FormPage.title), findsOneWidget);
 
-    expect(textFieldFinder, findsOneWidget);
-    _assertTextFieldIsEmpty(tester, textFieldFinder);
+      expect(textFieldFinder, findsOneWidget);
+      _assertTextFieldText(tester, textFieldFinder, isEmpty);
 
-    expect(dropdownFinder, findsOneWidget);
-    _assertDropdownButtonValueIsNull(tester, dropdownFinder);
+      expect(dropdownFinder, findsOneWidget);
+      _assertDropdownValue(tester, dropdownFinder, isNull);
 
-    expect(postButtonFinder, findsOneWidget);
-    _assertButtonEnabled(tester, postButtonFinder, isFalse);
-  });
+      expect(postButtonFinder, findsOneWidget);
+      _assertPostButtonEnabled(tester, postButtonFinder, isFalse);
+      _assertPostButtonText(FormPage.addButtonText);
+    });
 
-  testWidgets('''
-    When only TextField has value,
-    Then PostButton is disabled.
-  ''', (tester) async {
-    await tester.pumpWidget(_buildTestWidget());
+    testWidgets('''
+      Given initial page,
+      When only TextField has value,
+      Then PostButton is disabled.
+    ''', (tester) async {
+      await tester.pumpWidget(_buildTestWidget());
 
-    await _inputText(tester, textFieldFinder, 'test');
+      await _inputText(tester, textFieldFinder, 'test');
 
-    _assertButtonEnabled(tester, postButtonFinder, isFalse);
-  });
+      _assertPostButtonEnabled(tester, postButtonFinder, isFalse);
+    });
 
-  testWidgets('''
-    When only DropdownButton has value,
-    Then PostButton is disabled.
-  ''', (tester) async {
-    await tester.pumpWidget(_buildTestWidget());
+    testWidgets('''
+      Given initial page,
+      When only DropdownButton has value,
+      Then PostButton is disabled.
+    ''', (tester) async {
+      await tester.pumpWidget(_buildTestWidget());
 
-    await _selectDropdown(tester, dropdownFinder, FormDropdownValue.work.name);
+      await _selectDropdown(
+          tester, dropdownFinder, FormDropdownValue.work.name);
 
-    _assertButtonEnabled(tester, postButtonFinder, isFalse);
-  });
+      _assertPostButtonEnabled(tester, postButtonFinder, isFalse);
+    });
 
-  testWidgets('''
-    When TextField and DropdownButton have value,
-    Then PostButton is enabled.
-  ''', (tester) async {
-    await tester.pumpWidget(_buildTestWidget());
+    testWidgets('''
+      Given initial page,
+      When TextField and DropdownButton have value,
+      Then PostButton is enabled.
+    ''', (tester) async {
+      await tester.pumpWidget(_buildTestWidget());
 
-    await _inputText(tester, textFieldFinder, 'test');
-    await _selectDropdown(tester, dropdownFinder, FormDropdownValue.work.name);
+      await _inputText(tester, textFieldFinder, 'test');
+      await _selectDropdown(
+          tester, dropdownFinder, FormDropdownValue.work.name);
 
-    _assertButtonEnabled(tester, postButtonFinder, isTrue);
-  });
+      _assertPostButtonEnabled(tester, postButtonFinder, isTrue);
+    });
 
-  testWidgets('''
-    When DropdownButton have value and TextField value is removed,
-    Then PostButton is disabled.
-  ''', (tester) async {
-    await tester.pumpWidget(_buildTestWidget());
+    testWidgets('''
+      Given DropdownButton and TextField have value,
+      When TextField value is removed,
+      Then PostButton is disabled.
+    ''', (tester) async {
+      await tester.pumpWidget(_buildTestWidget());
 
-    await _inputText(tester, textFieldFinder, 'test');
-    await _selectDropdown(tester, dropdownFinder, FormDropdownValue.work.name);
-    await _inputText(tester, textFieldFinder, '');
+      await _inputText(tester, textFieldFinder, 'test');
+      await _selectDropdown(
+          tester, dropdownFinder, FormDropdownValue.work.name);
+      await _inputText(tester, textFieldFinder, '');
 
-    _assertButtonEnabled(tester, postButtonFinder, isFalse);
-  });
+      _assertPostButtonEnabled(tester, postButtonFinder, isFalse);
+    });
 
-  testWidgets('''
-    When PostButton is tapped,
-    Then TextField and Dropdown is cleared.
-  ''', (tester) async {
-    await tester.pumpWidget(_buildTestWidget());
+    testWidgets('''
+      Given DropdownButton and TextField have value,
+      When PostButton is tapped,
+      Then PostButton's text is Update.
+    ''', (tester) async {
+      await tester.pumpWidget(_buildTestWidget());
 
-    await _inputText(tester, textFieldFinder, 'test');
-    await _selectDropdown(tester, dropdownFinder, FormDropdownValue.work.name);
+      await _inputText(tester, textFieldFinder, 'test');
+      await _selectDropdown(
+          tester, dropdownFinder, FormDropdownValue.work.name);
 
-    await tester.tap(postButtonFinder);
-    await tester.pumpAndSettle();
+      await tester.tap(postButtonFinder);
+      await tester.pumpAndSettle();
 
-    _assertTextFieldIsEmpty(tester, textFieldFinder);
-    _assertDropdownButtonValueIsNull(tester, dropdownFinder);
-    _assertButtonEnabled(tester, postButtonFinder, isFalse);
-  });
+      _assertPostButtonText(FormPage.updateButtonText);
+    });
+  }));
 }
 
 Widget _buildTestWidget() {
@@ -121,19 +131,25 @@ Future<void> _selectDropdown(
   await tester.pumpAndSettle();
 }
 
-void _assertTextFieldIsEmpty(WidgetTester tester, Finder finder) {
+void _assertTextFieldText(WidgetTester tester, Finder finder, Matcher matcher) {
   final textField = tester.widget<TextField>(finder);
-  expect(textField.controller?.text, isEmpty);
+  expect(textField.controller?.text, matcher);
 }
 
-void _assertDropdownButtonValueIsNull(WidgetTester tester, Finder finder) {
-  final dropdownButton = tester.widget<DropdownButton<FormDropdownValue>>(
+void _assertDropdownValue(WidgetTester tester, Finder finder, Matcher matcher) {
+  final dropdown = tester.widget<DropdownButton<FormDropdownValue>>(
     finder,
   );
-  expect(dropdownButton.value, isNull);
+  expect(dropdown.value, matcher);
 }
 
-void _assertButtonEnabled(WidgetTester tester, Finder finder, Matcher matcher) {
+void _assertPostButtonEnabled(
+    WidgetTester tester, Finder finder, Matcher matcher) {
   final button = tester.widget<ElevatedButton>(finder);
   expect(button.enabled, matcher);
+}
+
+void _assertPostButtonText(String expectedText) {
+  final finder = find.widgetWithText(ElevatedButton, expectedText);
+  expect(finder, findsOneWidget);
 }

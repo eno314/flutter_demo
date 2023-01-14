@@ -9,7 +9,7 @@ class FormPage extends ConsumerWidget {
   static const title = 'Form with Riverpod';
   static const textFieldLabel = 'Please input task name.';
   static const dropdownButtonHint = 'Please input task type.';
-  static const addButtonText = 'Post';
+  static const addButtonText = 'Add';
   static const updateButtonText = 'Update';
 
   const FormPage({super.key});
