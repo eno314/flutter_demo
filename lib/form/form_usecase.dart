@@ -14,7 +14,7 @@ class FormUsecase {
       dropdownItem: request.dropdownItem,
     );
 
-    await _save(formData);
+    await _saveToRepository(formData);
 
     return FormResponse(data: formData);
   }
@@ -26,7 +26,7 @@ class FormUsecase {
       dropdownItem: request.dropdownItem,
     );
 
-    await _save(formData);
+    await _saveToRepository(formData);
 
     return FormResponse(data: formData);
   }
@@ -49,7 +49,7 @@ class FormUsecase {
     );
   }
 
-  Future<void> _save(FormData formData) async {
+  Future<void> _saveToRepository(FormData formData) async {
     _formDataRepository[formData.id] = formData;
 
     // Simulate network delay
