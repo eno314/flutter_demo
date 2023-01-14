@@ -16,8 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$FormValuesProps {
+  int? get id => throw _privateConstructorUsedError;
   String? get textField => throw _privateConstructorUsedError;
   FormDropdownValue? get dropdown => throw _privateConstructorUsedError;
+  bool get isPosting => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FormValuesPropsCopyWith<FormValuesProps> get copyWith =>
@@ -30,7 +32,11 @@ abstract class $FormValuesPropsCopyWith<$Res> {
           FormValuesProps value, $Res Function(FormValuesProps) then) =
       _$FormValuesPropsCopyWithImpl<$Res, FormValuesProps>;
   @useResult
-  $Res call({String? textField, FormDropdownValue? dropdown});
+  $Res call(
+      {int? id,
+      String? textField,
+      FormDropdownValue? dropdown,
+      bool isPosting});
 }
 
 /// @nodoc
@@ -46,10 +52,16 @@ class _$FormValuesPropsCopyWithImpl<$Res, $Val extends FormValuesProps>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? textField = freezed,
     Object? dropdown = freezed,
+    Object? isPosting = null,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       textField: freezed == textField
           ? _value.textField
           : textField // ignore: cast_nullable_to_non_nullable
@@ -58,6 +70,10 @@ class _$FormValuesPropsCopyWithImpl<$Res, $Val extends FormValuesProps>
           ? _value.dropdown
           : dropdown // ignore: cast_nullable_to_non_nullable
               as FormDropdownValue?,
+      isPosting: null == isPosting
+          ? _value.isPosting
+          : isPosting // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -70,7 +86,11 @@ abstract class _$$_FormValuesPropsCopyWith<$Res>
       __$$_FormValuesPropsCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? textField, FormDropdownValue? dropdown});
+  $Res call(
+      {int? id,
+      String? textField,
+      FormDropdownValue? dropdown,
+      bool isPosting});
 }
 
 /// @nodoc
@@ -84,10 +104,16 @@ class __$$_FormValuesPropsCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? textField = freezed,
     Object? dropdown = freezed,
+    Object? isPosting = null,
   }) {
     return _then(_$_FormValuesProps(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       textField: freezed == textField
           ? _value.textField
           : textField // ignore: cast_nullable_to_non_nullable
@@ -96,23 +122,34 @@ class __$$_FormValuesPropsCopyWithImpl<$Res>
           ? _value.dropdown
           : dropdown // ignore: cast_nullable_to_non_nullable
               as FormDropdownValue?,
+      isPosting: null == isPosting
+          ? _value.isPosting
+          : isPosting // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_FormValuesProps implements _FormValuesProps {
-  _$_FormValuesProps({this.textField, this.dropdown});
+class _$_FormValuesProps extends _FormValuesProps {
+  _$_FormValuesProps(
+      {this.id, this.textField, this.dropdown, this.isPosting = false})
+      : super._();
 
+  @override
+  final int? id;
   @override
   final String? textField;
   @override
   final FormDropdownValue? dropdown;
+  @override
+  @JsonKey()
+  final bool isPosting;
 
   @override
   String toString() {
-    return 'FormValuesProps(textField: $textField, dropdown: $dropdown)';
+    return 'FormValuesProps(id: $id, textField: $textField, dropdown: $dropdown, isPosting: $isPosting)';
   }
 
   @override
@@ -120,14 +157,18 @@ class _$_FormValuesProps implements _FormValuesProps {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_FormValuesProps &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.textField, textField) ||
                 other.textField == textField) &&
             (identical(other.dropdown, dropdown) ||
-                other.dropdown == dropdown));
+                other.dropdown == dropdown) &&
+            (identical(other.isPosting, isPosting) ||
+                other.isPosting == isPosting));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, textField, dropdown);
+  int get hashCode =>
+      Object.hash(runtimeType, id, textField, dropdown, isPosting);
 
   @JsonKey(ignore: true)
   @override
@@ -136,15 +177,22 @@ class _$_FormValuesProps implements _FormValuesProps {
       __$$_FormValuesPropsCopyWithImpl<_$_FormValuesProps>(this, _$identity);
 }
 
-abstract class _FormValuesProps implements FormValuesProps {
+abstract class _FormValuesProps extends FormValuesProps {
   factory _FormValuesProps(
-      {final String? textField,
-      final FormDropdownValue? dropdown}) = _$_FormValuesProps;
+      {final int? id,
+      final String? textField,
+      final FormDropdownValue? dropdown,
+      final bool isPosting}) = _$_FormValuesProps;
+  _FormValuesProps._() : super._();
 
+  @override
+  int? get id;
   @override
   String? get textField;
   @override
   FormDropdownValue? get dropdown;
+  @override
+  bool get isPosting;
   @override
   @JsonKey(ignore: true)
   _$$_FormValuesPropsCopyWith<_$_FormValuesProps> get copyWith =>

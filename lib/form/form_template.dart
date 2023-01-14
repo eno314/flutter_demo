@@ -74,15 +74,18 @@ class FormTemplate extends StatelessWidget {
   }
 
   Widget _buildPostButton() {
+    final child = props.formValues.isPosting
+        ? const CircularProgressIndicator()
+        : ElevatedButton(
+            key: const Key('postButtonDemo'),
+            onPressed: props.isEnabledPostButton() ? onPressedPostButton : null,
+            child: Text(props.getPostButtonText()),
+          );
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: ElevatedButton(
-          key: const Key('postButtonDemo'),
-          onPressed: props.isEnabledPostButton() ? onPressedPostButton : null,
-          child: Text(props.postButtonText),
-        ),
+        child: child,
       ),
     );
   }

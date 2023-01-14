@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/form/form_notifier.dart';
 import 'package:flutter_demo/form/form_props.dart';
@@ -11,7 +9,8 @@ class FormPage extends ConsumerWidget {
   static const title = 'Form with Riverpod';
   static const textFieldLabel = 'Please input task name.';
   static const dropdownButtonHint = 'Please input task type.';
-  static const postButtonText = 'Post';
+  static const addButtonText = 'Post';
+  static const updateButtonText = 'Update';
 
   const FormPage({super.key});
 
@@ -23,7 +22,8 @@ class FormPage extends ConsumerWidget {
         title: title,
         textFieldLabel: textFieldLabel,
         dropdownButtonHint: dropdownButtonHint,
-        postButtonText: postButtonText,
+        addButtonText: addButtonText,
+        updateButtonText: updateButtonText,
         formValues: formValues,
       ),
       onChangedTextField: (value) => _onChangedTextField(value, ref),
@@ -43,8 +43,7 @@ class FormPage extends ConsumerWidget {
   }
 
   void _onPressedPostButton(WidgetRef ref) {
-    log('state : ${ref.read(formNotifierProvider)}');
     final notifier = ref.watch(formNotifierProvider.notifier);
-    notifier.reset();
+    notifier.post();
   }
 }
