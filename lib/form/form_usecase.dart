@@ -2,11 +2,24 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final formUsecaseProvider = Provider((ref) => FormUsecase());
+final formUsecaseProvider = Provider<FormUsecase>(
+  (ref) => FormFakeUsecase(
+    saveDelayedDuration: const Duration(seconds: 1),
+  ),
+);
 
-class FormUsecase {
+abstract class FormUsecase {
+  Future<FormResponse> add(FormRequest request);
+  Future<FormResponse> update(FormRequest request);
+}
+
+class FormFakeUsecase extends FormUsecase {
+  final Duration saveDelayedDuration;
   final Map<int, FormData> _formDataRepository = {};
 
+  FormFakeUsecase({required this.saveDelayedDuration});
+
+  @override
   Future<FormResponse> add(FormRequest request) async {
     final formData = _create(
       id: _nextId(),
@@ -19,6 +32,7 @@ class FormUsecase {
     return FormResponse(data: formData);
   }
 
+  @override
   Future<FormResponse> update(FormRequest request) async {
     final formData = _create(
       id: request.id,

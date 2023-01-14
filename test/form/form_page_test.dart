@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/form/form_page.dart';
 import 'package:flutter_demo/form/form_props.dart';
+import 'package:flutter_demo/form/form_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -10,6 +11,19 @@ void main() {
   final postButtonFinder = find.byKey(const Key('postButtonDemo'));
 
   group('Happy path', (() {
+    Widget buildTestWidget() {
+      return ProviderScope(
+        overrides: [
+          formUsecaseProvider.overrideWithValue(
+            FormFakeUsecase(
+              saveDelayedDuration: const Duration(microseconds: 1),
+            ),
+          ),
+        ],
+        child: const MaterialApp(home: FormPage()),
+      );
+    }
+
     testWidgets('''
       Given initial page,
       Then there are 4 widgets:
@@ -18,7 +32,7 @@ void main() {
         - DropdownButton (no selection)
         - PostButton (disabled, text is Add)
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await tester.pumpWidget(buildTestWidget());
 
       expect(find.text(FormPage.title), findsOneWidget);
 
@@ -38,7 +52,7 @@ void main() {
       When only TextField has value,
       Then PostButton is disabled.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await tester.pumpWidget(buildTestWidget());
 
       await _inputText(tester, textFieldFinder, 'test');
 
@@ -50,7 +64,7 @@ void main() {
       When only DropdownButton has value,
       Then PostButton is disabled.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await tester.pumpWidget(buildTestWidget());
 
       await _selectDropdown(
           tester, dropdownFinder, FormDropdownValue.work.name);
@@ -63,7 +77,7 @@ void main() {
       When TextField and DropdownButton have value,
       Then PostButton is enabled.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await tester.pumpWidget(buildTestWidget());
 
       await _inputText(tester, textFieldFinder, 'test');
       await _selectDropdown(
@@ -77,7 +91,7 @@ void main() {
       When TextField value is removed,
       Then PostButton is disabled.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await tester.pumpWidget(buildTestWidget());
 
       await _inputText(tester, textFieldFinder, 'test');
       await _selectDropdown(
@@ -92,7 +106,7 @@ void main() {
       When PostButton is tapped,
       Then PostButton's text is Update.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await tester.pumpWidget(buildTestWidget());
 
       await _inputText(tester, textFieldFinder, 'test');
       await _selectDropdown(
@@ -104,10 +118,6 @@ void main() {
       _assertPostButtonText(FormPage.updateButtonText);
     });
   }));
-}
-
-Widget _buildTestWidget() {
-  return const ProviderScope(child: MaterialApp(home: FormPage()));
 }
 
 Future<void> _inputText(WidgetTester tester, Finder finder, String text) async {
