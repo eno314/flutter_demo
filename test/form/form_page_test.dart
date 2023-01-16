@@ -117,6 +117,32 @@ void main() {
 
       _assertPostButtonText(FormPage.updateButtonText);
     });
+
+    testWidgets('''
+      Given Form is posted,
+      When DropdownButton and TextField change value and DropPostButton is tapped,
+      Then PostButton's text is Update.
+    ''', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+
+      await tester.pumpWidget(buildTestWidget());
+
+      await _inputText(tester, textFieldFinder, 'test');
+      await _selectDropdown(
+          tester, dropdownFinder, FormDropdownValue.work.name);
+
+      await tester.tap(postButtonFinder);
+      await tester.pumpAndSettle();
+
+      await _inputText(tester, textFieldFinder, 'test test');
+      await _selectDropdown(
+          tester, dropdownFinder, FormDropdownValue.hobby.name);
+
+      await tester.tap(postButtonFinder);
+      await tester.pumpAndSettle();
+
+      _assertPostButtonText(FormPage.updateButtonText);
+    });
   }));
 }
 
