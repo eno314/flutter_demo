@@ -105,6 +105,7 @@ void main() {
           tester, dropdownFinder, FormDropdownValue.work.name);
 
       // We need to use runAsync when we want to test async function is doing.
+      // @see https://qiita.com/kasa_le/items/2b3ee78bb0531acbdb64
       await tester.runAsync(() async {
         await tester.tap(postButtonFinder);
         await tester.pump(const Duration(microseconds: 1));
