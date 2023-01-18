@@ -16,7 +16,7 @@ void main() {
         overrides: [
           formUsecaseProvider.overrideWithValue(
             FormFakeUsecase(
-              saveDelayedDuration: const Duration(microseconds: 1),
+              saveDelayedDuration: const Duration(milliseconds: 1),
             ),
           ),
         ],
@@ -104,6 +104,27 @@ void main() {
     testWidgets('''
       Given DropdownButton and TextField have value,
       When PostButton is tapped,
+      Then PostButton is disappear and CircularProgressIndicator is appear.
+    ''', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+
+      await _inputText(tester, textFieldFinder, 'test');
+      await _selectDropdown(
+          tester, dropdownFinder, FormDropdownValue.work.name);
+
+      // We need to use runAsync when we want to test async function is doing.
+      await tester.runAsync(() async {
+        await tester.tap(postButtonFinder);
+        await tester.pump(const Duration(microseconds: 1));
+
+        expect(find.byType(ElevatedButton), findsNothing);
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      });
+    });
+
+    testWidgets('''
+      Given DropdownButton and TextField have value,
+      When PostButton is tapped and loading is done,
       Then PostButton's text is Update.
     ''', (tester) async {
       await tester.pumpWidget(buildTestWidget());
@@ -119,12 +140,11 @@ void main() {
     });
 
     testWidgets('''
-      Given Form is posted,
-      When DropdownButton and TextField change value and DropPostButton is tapped,
+      Given Form is posted and DropdownButton and TextField is changed,
+      When is tapped and loading is done,
       Then PostButton's text is Update.
     ''', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-
+      // Given
       await tester.pumpWidget(buildTestWidget());
 
       await _inputText(tester, textFieldFinder, 'test');
@@ -138,9 +158,11 @@ void main() {
       await _selectDropdown(
           tester, dropdownFinder, FormDropdownValue.hobby.name);
 
+      // When
       await tester.tap(postButtonFinder);
       await tester.pumpAndSettle();
 
+      // Then
       _assertPostButtonText(FormPage.updateButtonText);
     });
   }));
