@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/form/form_page.dart';
 import 'package:flutter_demo/form/form_props.dart';
-import 'package:flutter_demo/form/form_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -12,15 +11,8 @@ void main() {
 
   group('Happy path', (() {
     Widget buildTestWidget() {
-      return ProviderScope(
-        overrides: [
-          formUsecaseProvider.overrideWithValue(
-            FormFakeUsecase(
-              saveDelayedDuration: const Duration(milliseconds: 1),
-            ),
-          ),
-        ],
-        child: const MaterialApp(home: FormPage()),
+      return const ProviderScope(
+        child: MaterialApp(home: FormPage()),
       );
     }
 
