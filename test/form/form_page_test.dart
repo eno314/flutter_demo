@@ -9,22 +9,21 @@ void main() {
   final dropdownFinder = find.byKey(const Key('dropdownButtonDemo'));
   final postButtonFinder = find.byKey(const Key('postButtonDemo'));
 
-  group('Happy path', (() {
-    Widget buildTestWidget() {
-      return const ProviderScope(
-        child: MaterialApp(home: FormPage()),
+  group('Given initial page,', () {
+    Future<void> setupInitialPage(tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(child: MaterialApp(home: FormPage())),
       );
     }
 
     testWidgets('''
-      Given initial page,
       Then there are 4 widgets:
         - Text (having title)
         - TextField (empty)
         - DropdownButton (no selection)
         - PostButton (disabled, text is Add)
     ''', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
+      await setupInitialPage(tester);
 
       expect(find.text(FormPage.title), findsOneWidget);
 
@@ -40,11 +39,10 @@ void main() {
     });
 
     testWidgets('''
-      Given initial page,
       When only TextField has value,
       Then PostButton is disabled.
     ''', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
+      await setupInitialPage(tester);
 
       await _inputText(tester, textFieldFinder, 'test');
 
@@ -52,11 +50,10 @@ void main() {
     });
 
     testWidgets('''
-      Given initial page,
       When only DropdownButton has value,
       Then PostButton is disabled.
     ''', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
+      await setupInitialPage(tester);
 
       await _selectDropdown(
           tester, dropdownFinder, FormDropdownValue.work.name);
@@ -65,11 +62,10 @@ void main() {
     });
 
     testWidgets('''
-      Given initial page,
       When TextField and DropdownButton have value,
       Then PostButton is enabled.
     ''', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
+      await setupInitialPage(tester);
 
       await _inputText(tester, textFieldFinder, 'test');
       await _selectDropdown(
@@ -77,32 +73,35 @@ void main() {
 
       _assertPostButtonEnabled(tester, postButtonFinder, isTrue);
     });
+  });
 
-    testWidgets('''
-      Given DropdownButton and TextField have value,
-      When TextField value is removed,
-      Then PostButton is disabled.
-    ''', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
+  group('Given DropdownButton and TextField have value', () {
+    Future<void> setupDropdownButtonAndTextFieldHaveValue(tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(child: MaterialApp(home: FormPage())),
+      );
 
       await _inputText(tester, textFieldFinder, 'test');
       await _selectDropdown(
           tester, dropdownFinder, FormDropdownValue.work.name);
+    }
+
+    testWidgets('''
+      When TextField value is removed,
+      Then PostButton is disabled.
+    ''', (tester) async {
+      await setupDropdownButtonAndTextFieldHaveValue(tester);
+
       await _inputText(tester, textFieldFinder, '');
 
       _assertPostButtonEnabled(tester, postButtonFinder, isFalse);
     });
 
     testWidgets('''
-      Given DropdownButton and TextField have value,
       When PostButton is tapped,
       Then PostButton is disappear and CircularProgressIndicator is appear.
     ''', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-
-      await _inputText(tester, textFieldFinder, 'test');
-      await _selectDropdown(
-          tester, dropdownFinder, FormDropdownValue.work.name);
+      await setupDropdownButtonAndTextFieldHaveValue(tester);
 
       // We need to use runAsync when we want to test async function is doing.
       // @see https://qiita.com/kasa_le/items/2b3ee78bb0531acbdb64
@@ -116,29 +115,25 @@ void main() {
     });
 
     testWidgets('''
-      Given DropdownButton and TextField have value,
       When PostButton is tapped and loading is done,
       Then PostButton's text is Update.
     ''', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-
-      await _inputText(tester, textFieldFinder, 'test');
-      await _selectDropdown(
-          tester, dropdownFinder, FormDropdownValue.work.name);
+      await setupDropdownButtonAndTextFieldHaveValue(tester);
 
       await tester.tap(postButtonFinder);
       await tester.pumpAndSettle();
 
       _assertPostButtonText(FormPage.updateButtonText);
     });
+  });
 
-    testWidgets('''
-      Given Form is posted and DropdownButton and TextField is changed,
-      When is tapped and loading is done,
-      Then PostButton's text is Update.
-    ''', (tester) async {
-      // Given
-      await tester.pumpWidget(buildTestWidget());
+  group('Given Form is posted and DropdownButton and TextField is changed,',
+      (() {
+    Future<void> setupFormIsPostedAndDropdownButtonAndTextFieldIsChanged(
+        tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(child: MaterialApp(home: FormPage())),
+      );
 
       await _inputText(tester, textFieldFinder, 'test');
       await _selectDropdown(
@@ -150,12 +145,17 @@ void main() {
       await _inputText(tester, textFieldFinder, 'test test');
       await _selectDropdown(
           tester, dropdownFinder, FormDropdownValue.hobby.name);
+    }
 
-      // When
+    testWidgets('''
+      When is tapped and loading is done,
+      Then PostButton's text is Update.
+    ''', (tester) async {
+      await setupFormIsPostedAndDropdownButtonAndTextFieldIsChanged(tester);
+
       await tester.tap(postButtonFinder);
       await tester.pumpAndSettle();
 
-      // Then
       _assertPostButtonText(FormPage.updateButtonText);
     });
   }));
