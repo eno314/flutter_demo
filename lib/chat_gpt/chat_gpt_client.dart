@@ -18,7 +18,7 @@ class ChatGPTClient {
       'messages': [
         {
           'role': 'user',
-          'content': 'ChatGPTのおすすめの使い方はありますか',
+          'content': 'What is the OpenAI mission?',
         }
       ],
     });
