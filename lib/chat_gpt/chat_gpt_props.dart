@@ -1,3 +1,7 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'chat_gpt_props.freezed.dart';
+
 class ChatGPTProps {
   final String title;
   final ChatGPTInputProps input;
@@ -12,12 +16,10 @@ class ChatGPTProps {
   }
 }
 
-class ChatGPTInputProps {
-  final String apiKey;
-  final String chatMessage;
-
-  const ChatGPTInputProps({
-    required this.apiKey,
-    required this.chatMessage,
-  });
+@freezed
+class ChatGPTInputProps with _$ChatGPTInputProps {
+  factory ChatGPTInputProps({
+    required String apiKey,
+    required String chatMessage,
+  }) = _ChatGPTInputProps;
 }

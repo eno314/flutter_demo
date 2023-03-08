@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
@@ -8,7 +9,7 @@ class ChatGPTClient {
 
   const ChatGPTClient(this._apiKey);
 
-  void request() async {
+  void request(String message) async {
     final headers = {
       'Authorization': 'Bearer $_apiKey',
       'content-type': 'application/json',
@@ -18,13 +19,13 @@ class ChatGPTClient {
       'messages': [
         {
           'role': 'user',
-          'content': 'What is the OpenAI mission?',
+          'content': message,
         }
       ],
     });
     var response =
         await http.post(Uri.parse(url), headers: headers, body: body);
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    log('Response status: ${response.statusCode}');
+    log('Response body: ${response.body}');
   }
 }

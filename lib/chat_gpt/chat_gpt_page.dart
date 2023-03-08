@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/chat_gpt/chat_gpt_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'chat_gpt_notifier.dart';
 import 'chat_gpt_props.dart';
 import 'chat_gpt_template.dart';
 
@@ -12,17 +16,30 @@ class ChatGPTPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final input = ref.watch(chatGPTInputNotifierProvider);
     return ChatGPTTemplate(
-      props: const ChatGPTProps(
+      props: ChatGPTProps(
         title: title,
-        input: ChatGPTInputProps(
-          apiKey: '',
-          chatMessage: '',
-        ),
+        input: input,
       ),
-      onChangedApiKey: (value) => {},
-      onChangedChatMessage: (value) => {},
-      onPressedPostButton: () => {},
+      onChangedApiKey: (value) => _onChangedApiKey(value, ref),
+      onChangedChatMessage: (value) => _onChangedChatMessage(value, ref),
+      onPressedPostButton: () => _onPressedPostButton(ref),
     );
+  }
+
+  void _onChangedApiKey(String value, WidgetRef ref) {
+    final notifier = ref.watch(chatGPTInputNotifierProvider.notifier);
+    notifier.onChangedApiKey(value);
+  }
+
+  void _onChangedChatMessage(String value, WidgetRef ref) {
+    final notifier = ref.watch(chatGPTInputNotifierProvider.notifier);
+    notifier.onChangedChatMessage(value);
+  }
+
+  void _onPressedPostButton(WidgetRef ref) async {
+    final input = ref.read(chatGPTInputNotifierProvider);
+    ChatGPTClient(input.apiKey).request(input.chatMessage);
   }
 }
