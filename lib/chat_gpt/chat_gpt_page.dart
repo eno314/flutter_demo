@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/chat_gpt/chat_gpt_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
