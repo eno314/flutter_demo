@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/chat_gpt/chat_gpt_page.dart';
+import 'package:flutter_demo/open_ai/open_ai_page.dart';
 import 'package:flutter_demo/counter/counter_page.dart';
 import 'package:flutter_demo/form/form_page.dart';
 import 'package:flutter_demo/home/home_page.dart';
@@ -55,27 +55,27 @@ void main() {
     });
   }));
 
-  group('Chat GPT page', (() {
-    const chatGPTPageLinkItemKey = Key('home_list_item_2');
+  group('OpenAI page', (() {
+    const openAIPageLinkItemKey = Key('home_list_item_2');
 
     testWidgets('''
-      Home page has chat GPT page link item.
+      Home page has OpenAI page link item.
     ''', (tester) async {
       await tester.pumpWidget(_buildTestWidget());
 
-      expect(find.byKey(chatGPTPageLinkItemKey), findsOneWidget);
+      expect(find.byKey(openAIPageLinkItemKey), findsOneWidget);
     });
 
     testWidgets('''
-      When tap chat GPT page link item,
-      then navigate to chat GPT page.
+      When tap OpenAI page link item,
+      then navigate to OpenAI page.
     ''', (tester) async {
       await tester.pumpWidget(_buildTestWidget());
 
-      await tester.tap(find.byKey(chatGPTPageLinkItemKey));
+      await tester.tap(find.byKey(openAIPageLinkItemKey));
       await tester.pumpAndSettle();
 
-      expect(find.byType(ChatGPTPage), findsOneWidget);
+      expect(find.byType(OpenAIPage), findsOneWidget);
     });
   }));
 }

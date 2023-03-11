@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/chat_gpt/chat_gpt_page.dart';
+import 'package:flutter_demo/open_ai/open_ai_page.dart';
 import 'package:flutter_demo/counter/counter_page.dart';
 import 'package:flutter_demo/form/form_page.dart';
 import 'package:flutter_demo/home/home_props.dart';
@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         '/': (context) => const _HomePage(),
         CounterPage.route: (context) => const CounterPage(),
         FormPage.route: (context) => const FormPage(),
-        ChatGPTPage.route: (context) => const ChatGPTPage(),
+        OpenAIPage.route: (context) => OpenAIPage(),
       },
     );
   }
@@ -59,8 +59,8 @@ class _HomePage extends StatelessWidget {
 
   HomeListItemProps _chatGPTPageListItemProps() {
     return HomeListItemProps(
-      title: ChatGPTPage.title,
-      route: ChatGPTPage.route,
+      title: OpenAIPage.title,
+      route: OpenAIPage.route,
     );
   }
 }
