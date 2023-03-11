@@ -4,6 +4,7 @@ class OpenAITemplate extends StatelessWidget {
   final String title;
   final String apiKeyInputLabel;
   final String apiKeyText;
+  final ValueChanged<String> onChangedApiKeyInput;
   final String chatGPTButtonText;
   final VoidCallback onPressedChatGPTButton;
 
@@ -12,6 +13,7 @@ class OpenAITemplate extends StatelessWidget {
     required this.title,
     required this.apiKeyInputLabel,
     required this.apiKeyText,
+    required this.onChangedApiKeyInput,
     required this.chatGPTButtonText,
     required this.onPressedChatGPTButton,
   });
@@ -45,6 +47,7 @@ class OpenAITemplate extends StatelessWidget {
           border: const UnderlineInputBorder(),
           labelText: apiKeyInputLabel,
         ),
+        onChanged: onChangedApiKeyInput,
       ),
     );
   }
@@ -56,14 +59,10 @@ class OpenAITemplate extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: ElevatedButton(
           key: const Key('chatGPTButton'),
-          onPressed: _isApiKeyInputEmpty() ? null : onPressedChatGPTButton,
+          onPressed: apiKeyText.isEmpty ? null : onPressedChatGPTButton,
           child: Text(chatGPTButtonText),
         ),
       ),
     );
-  }
-
-  bool _isApiKeyInputEmpty() {
-    return apiKeyText.isEmpty;
   }
 }

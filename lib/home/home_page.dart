@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         '/': (context) => const _HomePage(),
         CounterPage.route: (context) => const CounterPage(),
         FormPage.route: (context) => const FormPage(),
-        OpenAIPage.route: (context) => OpenAIPage(),
+        OpenAIPage.route: (context) => const OpenAIPage(),
       },
     );
   }

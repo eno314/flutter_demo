@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/open_ai/open_ai_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -23,10 +24,26 @@ void main() {
     expect(chatGPTButtonFinder, findsOneWidget);
     _assertButtonEnabled(tester, chatGPTButtonFinder, isFalse);
   });
+
+  testWidgets('''
+    When apiKeyInput has value,
+    Then ChatGPTButton is enabled.
+  ''', (tester) async {
+    await tester.pumpWidget(_buildTestWidget());
+
+    await _inputText(tester, apiKeyInputFinder, 'test');
+
+    _assertButtonEnabled(tester, chatGPTButtonFinder, isTrue);
+  });
 }
 
 Widget _buildTestWidget() {
-  return MaterialApp(home: Scaffold(body: OpenAIPage()));
+  return const ProviderScope(child: MaterialApp(home: OpenAIPage()));
+}
+
+Future<void> _inputText(WidgetTester tester, Finder finder, String text) async {
+  await tester.enterText(finder, text);
+  await tester.pumpAndSettle();
 }
 
 void _assertTextFieldIsEmpty(WidgetTester tester, Finder finder) {
