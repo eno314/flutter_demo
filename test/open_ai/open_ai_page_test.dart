@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/open_ai/chat_gpt/chat_gpt_page.dart';
 import 'package:flutter_demo/open_ai/open_ai_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../utils/utils.dart' as utils;
@@ -34,5 +35,17 @@ void main() {
     await utils.inputText(tester, apiKeyInputFinder, 'test');
 
     utils.assertButtonEnabled(tester, chatGPTButtonFinder, isTrue);
+  });
+
+  testWidgets('''
+    When ChatGPTButton is pressed,
+    Then move to Chat GPT page.
+  ''', (tester) async {
+    await utils.arrangeWidgetWithProvider(tester, const OpenAIPage());
+
+    await utils.inputText(tester, apiKeyInputFinder, 'test');
+    await utils.tap(tester, chatGPTButtonFinder);
+
+    expect(find.byType(ChatGPTPage), findsOneWidget);
   });
 }
