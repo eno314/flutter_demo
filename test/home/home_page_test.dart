@@ -3,8 +3,9 @@ import 'package:flutter_demo/open_ai/open_ai_page.dart';
 import 'package:flutter_demo/counter/counter_page.dart';
 import 'package:flutter_demo/form/form_page.dart';
 import 'package:flutter_demo/home/home_page.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../utils/utils.dart' as utils;
 
 void main() {
   group('Counter page', (() {
@@ -13,7 +14,7 @@ void main() {
     testWidgets('''
       Home page has counter page link item.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await utils.arrangeWidgetWithProvider(tester, const HomePage());
 
       expect(find.byKey(counterPageLinkItemKey), findsOneWidget);
     });
@@ -22,10 +23,9 @@ void main() {
       When tap counter page link item,
       then navigate to counter page.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await utils.arrangeWidgetWithProvider(tester, const HomePage());
 
-      await tester.tap(find.byKey(counterPageLinkItemKey));
-      await tester.pumpAndSettle();
+      await utils.tap(tester, find.byKey(counterPageLinkItemKey));
 
       expect(find.byType(CounterPage), findsOneWidget);
     });
@@ -37,7 +37,7 @@ void main() {
     testWidgets('''
       Home page has form page link item.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await utils.arrangeWidgetWithProvider(tester, const HomePage());
 
       expect(find.byKey(formPageLinkItemKey), findsOneWidget);
     });
@@ -46,10 +46,9 @@ void main() {
       When tap form page link item,
       then navigate to form page.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await utils.arrangeWidgetWithProvider(tester, const HomePage());
 
-      await tester.tap(find.byKey(formPageLinkItemKey));
-      await tester.pumpAndSettle();
+      await utils.tap(tester, find.byKey(formPageLinkItemKey));
 
       expect(find.byType(FormPage), findsOneWidget);
     });
@@ -61,7 +60,7 @@ void main() {
     testWidgets('''
       Home page has OpenAI page link item.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await utils.arrangeWidgetWithProvider(tester, const HomePage());
 
       expect(find.byKey(openAIPageLinkItemKey), findsOneWidget);
     });
@@ -70,16 +69,11 @@ void main() {
       When tap OpenAI page link item,
       then navigate to OpenAI page.
     ''', (tester) async {
-      await tester.pumpWidget(_buildTestWidget());
+      await utils.arrangeWidgetWithProvider(tester, const HomePage());
 
-      await tester.tap(find.byKey(openAIPageLinkItemKey));
-      await tester.pumpAndSettle();
+      await utils.tap(tester, find.byKey(openAIPageLinkItemKey));
 
       expect(find.byType(OpenAIPage), findsOneWidget);
     });
   }));
-}
-
-Widget _buildTestWidget() {
-  return const ProviderScope(child: HomePage());
 }
